@@ -1,0 +1,29 @@
+:{$PORT:8080} {
+  encode zstd gzip
+
+  handle /v1/user/* {
+    reverse_proxy https://user-services-beefriends-be-production.up.railway.app {
+      header_up Host {upstream_hostport}
+    }
+  }
+
+  handle /v1/matchchat/* {
+    reverse_proxy https://matchchat-service-beefriends-be-production.up.railway.app {
+      header_up Host {upstream_hostport}
+    }
+  }
+
+  handle /socket.io/* {
+    reverse_proxy https://matchchat-service-beefriends-be-production.up.railway.app {
+      header_up Host {upstream_hostport}
+    }
+  }
+
+  handle /health {
+    respond "ok" 200
+  }
+
+  handle {
+    respond "BeeFriends API Gateway" 200
+  }
+}
