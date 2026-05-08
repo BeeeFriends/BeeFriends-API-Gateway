@@ -13,6 +13,12 @@
     }
   }
 
+  handle /v1/notifications* {
+    reverse_proxy {$NOTIFICATION_SERVICE_URL:https://notification-service-beefriends-be-production.up.railway.app} {
+      header_up Host {upstream_hostport}
+    }
+  }
+
   handle /socket.io/* {
     reverse_proxy https://matchchat-service-beefriends-be-production.up.railway.app {
       header_up Host {upstream_hostport}
