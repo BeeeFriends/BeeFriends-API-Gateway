@@ -7,6 +7,13 @@
     }
   }
 
+  handle /storage/* {
+    rewrite * /v1/user{uri}
+    reverse_proxy https://user-services-beefriends-be-production.up.railway.app {
+      header_up Host {upstream_hostport}
+    }
+  }
+
   handle /v1/matchchat/* {
     reverse_proxy https://matchchat-service-beefriends-be-production.up.railway.app {
       header_up Host {upstream_hostport}
